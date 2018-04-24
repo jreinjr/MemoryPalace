@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - Floor
+  - Cubes
+  - Spheres
+  - Leg
+  - Arm
+  - Saucers
+  - Torso
+  - OtherSaucers
+  - Menu
   layers:
   - Default
   - TransparentFX
