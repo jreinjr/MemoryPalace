@@ -10,7 +10,7 @@ public class MenuController : MonoBehaviour {
     // The button prefab to instantiate
     public GameObject buttonPrefab;
     // Location of the image folder
-    public string filePath = "Assets/Resources/Textures/";
+    public string filePath = "Assets/Textures/";
     // Location of Spawn Poster script
     public GameObject sceneScripts;
     SpawnPoster spawnPoster;

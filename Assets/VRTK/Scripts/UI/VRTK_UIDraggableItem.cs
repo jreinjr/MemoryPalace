@@ -179,7 +179,6 @@ namespace VRTK
             {
                 dragTransform = eventData.pointerEnter.transform as RectTransform;
             }
-            
 
             Vector3 pointerPosition;
             if (dragTransform != null && RectTransformUtility.ScreenPointToWorldPointInRectangle(dragTransform, eventData.position, eventData.pressEventCamera, out pointerPosition))
@@ -187,7 +186,6 @@ namespace VRTK
                 transform.position = pointerPosition - (transform.forward * forwardOffset);
                 transform.rotation = dragTransform.rotation;
             }
-            
         }
 
         protected virtual void ResetElement()
