@@ -43,15 +43,7 @@ public class WebSearch : MonoBehaviour {
                 int endIndex = returnStr.IndexOf(endString);
                 returnStr = returnStr.Substring(0, endIndex);
                 StartCoroutine(GetImageFromURL(returnStr, i));
-            }
-            /*
-            int startIndex = www.text.IndexOf(startString);
-            returnStr = returnStr.Substring(startIndex + startString.Length);
-            
-            int endIndex = returnStr.IndexOf(endString);
-            returnStr = returnStr.Substring(0, endIndex);
-            StartCoroutine(GetImageFromURL(returnStr));
-            */
+            }  
         }
     }
 

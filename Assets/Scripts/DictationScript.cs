@@ -46,9 +46,5 @@ public class DictationScript : MonoBehaviour {
 
         m_DictationRecognizer.Start();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

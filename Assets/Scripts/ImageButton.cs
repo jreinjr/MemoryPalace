@@ -3,22 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using VRTK;
 
-public class ImageButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+public class ImageButton : VRTK_UIDraggableItem, IPointerEnterHandler, IPointerExitHandler {
 
-    [SerializeField]
-    private string label;
-    [SerializeField]
-    private Sprite img;
+    public string label;
+    public Sprite img;
   
     private GameObject childTextObject;
     private GameObject childImgObject;
 
-    public ImageButton(string label, Sprite img)
-    {
-        this.label = label;
-        this.img = img;
-    }
 
     private void Start()
     {
@@ -33,6 +27,24 @@ public class ImageButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
         childTextObject.SetActive(false);
+    }
+
+    public override void OnBeginDrag(PointerEventData eventData)
+    {
+        // Gets our current sibling index (for the new instance to use)
+        int siblingIndex = transform.GetSiblingIndex();
+        GameObject newInstance = Instantiate(gameObject, transform.parent, true);
+        // Sets new instance sibling index to original object index
+        newInstance.transform.SetSiblingIndex(siblingIndex);
+        // Sets original object index to end of list
+        this.transform.SetSiblingIndex(transform.parent.childCount);
+        base.OnBeginDrag(eventData);
+    }
+
+    public override void OnEndDrag(PointerEventData eventData)
+    {
+        base.OnEndDrag(eventData);
+        Destroy(gameObject);
     }
 
     private void OnValidate()
