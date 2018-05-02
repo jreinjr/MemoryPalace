@@ -39,7 +39,7 @@ public class PointerRaycastHitGrabAttach : VRTK_BaseGrabAttach
         float realOffset = offset + Random.Range(0.0001f, 0.0003f);
         Vector3 pos = hit.point + hit.normal * realOffset;
         Quaternion rot = Quaternion.LookRotation(hit.normal * -1);
-        transform.SetPositionAndRotation(pos, rot);
+        gameObject.transform.SetPositionAndRotation(pos, rot);
     }
 
     private void OnCollisionStay(Collision collider)

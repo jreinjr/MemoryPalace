@@ -5,10 +5,9 @@ using VRTK.UnityEventHelper;
 using VRTK;
 using System;
 
-public class SpawnPoster : MonoBehaviour {
+public class SpawnAsset : MonoBehaviour {
 
-    public GameObject posterPrefab;
-    GameObject posterInstance;
+    GameObject assetInstance;
 
     private void Start()
     {
@@ -16,10 +15,9 @@ public class SpawnPoster : MonoBehaviour {
     }
 
     
-    public void Spawn(Sprite img)
+    public void Spawn(AssetItem asset)
     {
-        posterInstance = Instantiate(posterPrefab);
-        posterInstance.GetComponent<Renderer>().material.mainTexture = img.texture;
+        assetInstance = asset.reference.Spawn();
 
         // Snap to grab position
         VRTK_ObjectAutoGrab autograb = GetComponent<VRTK_ObjectAutoGrab>();
@@ -27,7 +25,7 @@ public class SpawnPoster : MonoBehaviour {
         {
             autograb = gameObject.AddComponent<VRTK_ObjectAutoGrab>();
         }
-        autograb.objectToGrab = posterInstance.GetComponent<VRTK_InteractableObject>();
+        autograb.objectToGrab = assetInstance.GetComponent<VRTK_InteractableObject>();
         // Disable UI pointer on spawn to avoid dragging menu
         gameObject.GetComponent<VRTK_UIPointer>().enabled = false;
         Destroy(autograb, 0.1f);
@@ -35,7 +33,7 @@ public class SpawnPoster : MonoBehaviour {
 
     private void DoInteractUngrab(object sender, ObjectInteractEventArgs e)
     {
-        if (e.target == posterInstance)
+        if (e.target == assetInstance)
         {
             // Reenable UI pointer after drop
             gameObject.GetComponent<VRTK_UIPointer>().enabled = true;

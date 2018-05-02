@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SearchMenuController : ImageMenuController {
+public class SearchMenuController : IconMenuController {
 
 	// Use this for initialization
 	void Start () {

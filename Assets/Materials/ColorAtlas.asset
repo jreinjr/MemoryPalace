@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65e9ff5896b6cf44adf43234ce50d5c, type: 3}
+  m_Name: ColorAtlas
+  m_EditorClassIdentifier: 
+  colors:
+  - color: Red
+    UV: {x: 0.526, y: 0.636}
+  - color: Orange
+    UV: {x: 0.409, y: 0.371}
+  - color: Yellow
+    UV: {x: 0.469, y: 0.215}
+  - color: Green
+    UV: {x: 0.409, y: 0.358}
+  - color: Blue
+    UV: {x: 0.429, y: 0.138}
+  - color: Indigo
+    UV: {x: 0.391, y: 0.336}
+  - color: Violet
+    UV: {x: 0.409, y: 0.178}
+  - color: Burgundy
+    UV: {x: 0.475, y: 0.304}
