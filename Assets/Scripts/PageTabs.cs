@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SearchMenuController : IconMenuController {
+public class PageTabs : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

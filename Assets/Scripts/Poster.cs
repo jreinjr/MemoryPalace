@@ -7,127 +7,151 @@ using VRTK;
 
 public class Poster : ManipulableObject, ISpawnableItem  {
 
-    public Transform closeup;
-    public GameObject postItPrefab;
     public Texture2D texture;
-    public bool hasFocus { get; private set; }
-    VRTK_ControllerEvents controllerEvents;
-    Vector3 savedPos;
-    Quaternion savedRot;
-    List<PostIt> postIts;
-    // Reference to the prefab this should sit on
-    GameObject prefab;
-
-    GameObject ISpawnableItem.prefab
+    public GameObject Prefab
     {
         get
         {
-            return prefab;
-        }
-
-        set
-        {
-            return;
+            try
+            {
+                return (GameObject)Resources.Load("Prefabs/Poster");
+            }
+            catch(Exception e)
+            {
+                Debug.Log(e.Message);
+                return null;
+            }
         }
     }
 
-    // Reference to this poster's AssetItem
-    public AssetItem posterAssetItem;
+
+    private Sprite _image;
+    public Sprite Image
+    {
+        get
+        {
+            return _image;
+        }
+        set
+        {
+            _image = value;
+        }
+    }
+
+    private string _name;
+    public string Name
+    {
+        get
+        {
+            return _name;
+        }
+        set
+        {
+            _name = value;
+        }
+    }
+
 
     public GameObject Spawn()
     {
-        GameObject posterInstance = Instantiate(prefab);
-        posterInstance.GetComponent<Renderer>().material.mainTexture = texture;
-        return posterInstance;
+        Debug.Log("Spawning poster");
+        GameObject newPoster = Instantiate(Prefab);
+        newPoster.GetComponent<Renderer>().material.mainTexture = _image.texture;
+        return newPoster;
     }
+
+    public override string ToString()
+    {
+        return "Poster " + _name;
+    }
+
+   
+    public bool hasFocus { get; private set; }
+    public Transform closeup;
+    Vector3 savedPos;
+    Quaternion savedRot;
+
+    public GameObject postItPrefab;
+    List<PostIt> postIts;
+
 
     private void Start()
     {
-        prefab = Resources.Load("Prefabs/Poster") as GameObject;
-        texture = posterAssetItem.icon.texture;
-
-        postIts = new List<PostIt>();
-
         /*
+        // Sets up PostIt list
+        postIts = new List<PostIt>();
+        
         PostIt postItInstance = Instantiate(postItPrefab, transform.Find("Canvas")).GetComponent<PostIt>();
         postItInstance.posterObject = gameObject;
         postIts.Add(postItInstance);
-        */
+
+        // Sets up focus / closeup 
         if (closeup == null)
         {
             closeup = GameObject.Find("Closeup").transform;
         }
         hasFocus = false;
         SaveTransform();
+        */
+
     }
 
-    void SaveTransform()
-    {
-        savedPos = transform.position;
-        savedRot = transform.rotation;
-    }
 
-    public override void OnInteractableObjectUngrabbed(InteractableObjectEventArgs e)
-    {
-        SaveTransform();
-        base.OnInteractableObjectUngrabbed(e);
-    }
 
-    public override void OnInteractableObjectUnused(InteractableObjectEventArgs e)
-    {
-        if (!hasFocus)
+        void SaveTransform()
+        {
+            savedPos = transform.position;
+            savedRot = transform.rotation;
+        }
+
+        public override void OnInteractableObjectUngrabbed(InteractableObjectEventArgs e)
         {
             SaveTransform();
-            hasFocus = true;
-            transform.SetParent(closeup, true);
-            StartCoroutine(SmoothMove(transform.localPosition, transform.localRotation, closeup.localPosition, closeup.localRotation, 1, true));
+            base.OnInteractableObjectUngrabbed(e);
         }
-        else
+
+        public override void OnInteractableObjectUnused(InteractableObjectEventArgs e)
         {
-            hasFocus = false;
-            transform.SetParent(null, true);
-            StartCoroutine(SmoothMove(transform.position, transform.rotation, savedPos, savedRot, 1, false));
-        }
-        base.OnInteractableObjectUnused(e);
-    }
-
-    public override void OnInteractableObjectUsed(InteractableObjectEventArgs e)
-    {
-
-        base.OnInteractableObjectUsed(e);
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-        //if (savedTransform != null) Debug.Log(savedTransform.position);
-    }
-
-    IEnumerator SmoothMove(Vector3 startPos, Quaternion startRot, Vector3 endPos, Quaternion endRot, float seconds, bool local)
-    {
-        
-        var t = 0.0f;
-        while (t <= 1.0f)
-        {
-            t += Time.deltaTime / seconds;
-
-            Vector3 newPos = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0.0f, 1.0f, t));
-            Quaternion newRot = Quaternion.Lerp(startRot, endRot, Mathf.SmoothStep(0.0f, 1.0f, t));
-
-            if (local)
+            if (!hasFocus)
             {
-                transform.localPosition = newPos;
-                transform.localRotation = newRot;
+                SaveTransform();
+                hasFocus = true;
+                transform.SetParent(closeup, true);
+                StartCoroutine(SmoothMove(transform.localPosition, transform.localRotation, closeup.localPosition, closeup.localRotation, 1, true));
             }
             else
             {
-                transform.position = newPos;
-                transform.rotation = newRot;
+                hasFocus = false;
+                transform.SetParent(null, true);
+                StartCoroutine(SmoothMove(transform.position, transform.rotation, savedPos, savedRot, 1, false));
             }
-            
-            yield return null;
+            base.OnInteractableObjectUnused(e);
         }
-    }
 
-    
+        IEnumerator SmoothMove(Vector3 startPos, Quaternion startRot, Vector3 endPos, Quaternion endRot, float seconds, bool local)
+        {
+
+            var t = 0.0f;
+            while (t <= 1.0f)
+            {
+                t += Time.deltaTime / seconds;
+
+                Vector3 newPos = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0.0f, 1.0f, t));
+                Quaternion newRot = Quaternion.Lerp(startRot, endRot, Mathf.SmoothStep(0.0f, 1.0f, t));
+
+                if (local)
+                {
+                    transform.localPosition = newPos;
+                    transform.localRotation = newRot;
+                }
+                else
+                {
+                    transform.position = newPos;
+                    transform.rotation = newRot;
+                }
+
+                yield return null;
+            }
+        }
+
 }

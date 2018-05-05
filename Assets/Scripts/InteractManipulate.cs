@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using VRTK.UnityEventHelper;
 using VRTK;
+using System;
 
 public class InteractManipulate : MonoBehaviour {
 
     VRTK_Pointer pointer;
+    VRTK_ControllerEvents eventz;
     VRTK_ControllerEvents_UnityEvents controllerEvents;
     VRTK_InteractTouch_UnityEvents touchEvents;
     Vector3 instancePos;
@@ -23,12 +25,19 @@ public class InteractManipulate : MonoBehaviour {
         {
             controllerEvents = gameObject.AddComponent<VRTK_ControllerEvents_UnityEvents>();
         }
-
+         
         touchEvents = GetComponent<VRTK_InteractTouch_UnityEvents>();
         if (touchEvents == null)
         {
             touchEvents = gameObject.AddComponent<VRTK_InteractTouch_UnityEvents>();
         }
+
+        controllerEvents.OnTouchpadAxisChanged.AddListener(DoTouchpadAxisChanged);
+    }
+
+    private void DoTouchpadAxisChanged(object sender, ControllerInteractionEventArgs e)
+    {
+        Debug.Log(e);
     }
 
     /// <summary>
