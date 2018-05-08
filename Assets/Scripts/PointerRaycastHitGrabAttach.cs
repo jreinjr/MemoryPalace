@@ -18,18 +18,19 @@ public class PointerRaycastHitGrabAttach : VRTK_BaseGrabAttach
 
     public override bool StartGrab(GameObject grabbingObject, GameObject givenGrabbedObject, Rigidbody givenControllerAttachPoint)
     {
-        gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        transform.ChangeLayersRecursively("Ignore Raycast");
         pointer = grabbingObject.GetComponent<VRTK_Pointer>();
         //GetComponent<Collider>().enabled = false;
         offset = 0f;
         return base.StartGrab(grabbingObject, givenGrabbedObject, givenControllerAttachPoint);
     }
 
+
     public override void StopGrab(bool applyGrabbingObjectVelocity)
     {
-        gameObject.layer = LayerMask.NameToLayer("Default");
+        transform.ChangeLayersRecursively("Default");
         //GetComponent<Collider>().enabled = true;
-
+        
         base.StopGrab(applyGrabbingObjectVelocity);
     }
 

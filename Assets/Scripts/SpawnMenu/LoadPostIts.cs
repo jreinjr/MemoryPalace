@@ -23,7 +23,10 @@ public class LoadPostIts : SpawnableLoader {
 
         foreach (Color c in colors)
         {
-            PostIt newPostIt = new PostIt(c.ToString(), c);
+            PostIt newPostIt = new PostIt();
+            newPostIt.Name = c.ToString();
+            newPostIt.color = c;
+            newPostIt.GenerateThumbnail();
             items.Add(newPostIt);
         }
         return items;

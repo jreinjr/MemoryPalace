@@ -27,7 +27,6 @@ public class ManipulableObject : VRTK_InteractableObject {
     {
         if (controllerEvents != null)
         {
-            Debug.Log("oops");
             controllerEvents.TouchpadPressed -= DoTouchpadPressed;
             controllerEvents = null;
         }

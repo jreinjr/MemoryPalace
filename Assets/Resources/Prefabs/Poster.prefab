@@ -39,11 +39,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4869828599837420}
   - component: {fileID: 33014772386000852}
-  - component: {fileID: 64499029207045356}
   - component: {fileID: 23385096141892832}
   - component: {fileID: 114704687475077332}
   - component: {fileID: 114069844477459004}
   - component: {fileID: 114995656008498454}
+  - component: {fileID: 65549755526759354}
   m_Layer: 2
   m_Name: Poster
   m_TagString: Untagged
@@ -106,8 +106,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1971568913712664}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64499029207045356
-MeshCollider:
+--- !u!65 &65549755526759354
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -115,11 +115,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 6.1232336e-17}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114069844477459004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,7 +215,9 @@ MonoBehaviour:
   useOverrideButton: 0
   allowedUseControllers: 0
   usingState: 0
+  texture: {fileID: 0}
   closeup: {fileID: 0}
+  postItPrefab: {fileID: 0}
 --- !u!114 &114995656008498454
 MonoBehaviour:
   m_ObjectHideFlags: 1
