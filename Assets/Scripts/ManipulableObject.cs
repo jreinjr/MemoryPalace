@@ -7,8 +7,14 @@ public class ManipulableObject : VRTK_InteractableObject {
 
     protected VRTK_ControllerEvents controllerEvents;
 
+    public override void OnInteractableObjectUsed(InteractableObjectEventArgs e)
+    {
+        Destroy(gameObject);
+    }
+
     public override void OnInteractableObjectGrabbed(InteractableObjectEventArgs e)
     {
+        gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         controllerEvents = e.interactingObject.GetComponent<VRTK_ControllerEvents>();
         if (controllerEvents == null)
         {
@@ -25,6 +31,7 @@ public class ManipulableObject : VRTK_InteractableObject {
 
     public override void OnInteractableObjectUngrabbed(InteractableObjectEventArgs e)
     {
+        gameObject.layer = LayerMask.NameToLayer("Manipulable");
         if (controllerEvents != null)
         {
             controllerEvents.TouchpadPressed -= DoTouchpadPressed;
