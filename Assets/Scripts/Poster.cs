@@ -66,13 +66,13 @@ public class Poster : ManipulableObject, ISpawnableItem  {
     }
 
    
-    public bool hasFocus { get; private set; }
-    public Transform closeup;
-    Vector3 savedPos;
-    Quaternion savedRot;
+    //public bool hasFocus { get; private set; }
+    //public Transform closeup;
+    //Vector3 savedPos;
+    //Quaternion savedRot;
 
-    public GameObject postItPrefab;
-    List<PostIt> postIts;
+    //public GameObject postItPrefab;
+    //List<PostIt> postIts;
 
 
     private void Start()

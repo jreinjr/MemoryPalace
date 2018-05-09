@@ -50,7 +50,7 @@ public class SpawnableInventory : MonoBehaviour {
     private List<SpawnableInventoryPage> mPages = new List<SpawnableInventoryPage>();
 
     // List of loader objects to populate menu on start
-    public List<SpawnableLoader> loadOnStart;
+    public List<SpawnableLoader> spawnableLoaders;
 
     // Called every time a spawnable is added to a menu page
     public event EventHandler<SpawnableLoadedEventArgs> SpawnableAdded;
@@ -89,26 +89,26 @@ public class SpawnableInventory : MonoBehaviour {
     public void Load()
     {
         // Loop through lists of SpawnableLoaders and add them to SpawnableInventory
-        for (int i = 0; i < loadOnStart.Count; i++)
+        for (int i = 0; i < spawnableLoaders.Count; i++)
         {
-            SpawnableInventoryPage addToPage;
+            SpawnableInventoryPage pageToAdd;
             List<string> pageLabels = mPages.Select(o => o.label).ToList();
-            int pageFoundIndex = pageLabels.IndexOf(loadOnStart[i].label);
+            int pageFoundIndex = pageLabels.IndexOf(spawnableLoaders[i].label);
             // If no page with this label already exists, make a new one
             if (pageFoundIndex < 0)
             {
-                addToPage = AddPage(loadOnStart[i].label);
+                pageToAdd = AddPage(spawnableLoaders[i].label);
 
             }
             // Else, to the existing page
             else
             {
-                addToPage = mPages[pageFoundIndex];
+                pageToAdd = mPages[pageFoundIndex];
             }
-            AddList(loadOnStart[i].Load(), addToPage);
+            AddList(spawnableLoaders[i].Load(), pageToAdd);
         }
         // Clear load on start list after load
-        loadOnStart.Clear();
+        spawnableLoaders.Clear();
     }
 
     private void Start()
