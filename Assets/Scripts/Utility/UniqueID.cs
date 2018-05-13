@@ -11,4 +11,9 @@ public class UniqueID : MonoBehaviour {
     {
         ID = Guid.NewGuid().ToString();
     }
+
+    public void SetUniqueIDFromSaveFile(string savedID)
+    {
+        ID = savedID;
+    }
 }

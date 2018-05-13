@@ -21,7 +21,6 @@ namespace MemoryPalace
 
         private void Start()
         {
-            SpawnHandler.RegisterPrefabSpawnedCallback(OnPosterSpawned);
 
 
             // Sets up focus / closeup 
@@ -32,11 +31,7 @@ namespace MemoryPalace
             //hasFocus = false;
             //SaveTransform();
         }
-
-        void OnPosterSpawned(PosterMenuItem poster, GameObject gameObject)
-        {
-
-        }
+        
 
 
         //void SaveTransform()

@@ -5,9 +5,13 @@ using UnityEngine;
 namespace MemoryPalace
 {
     [Serializable]
-    public class World
+    public class WorldSaveData
     {
-        public List<PosterMenuItem> posters;
+        public List<GameObjectSaveData> savedGameObjects;
 
+        public WorldSaveData()
+        {
+            savedGameObjects = new List<GameObjectSaveData>();
+        }
     }
 }

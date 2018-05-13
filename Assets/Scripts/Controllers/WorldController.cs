@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 namespace MemoryPalace
 {
@@ -10,13 +11,17 @@ namespace MemoryPalace
     // of spawned objects in the world - for example furniture, posters, postits. 
     public class WorldController : MonoBehaviour
     {
+        // Required references
+        public SpawnHandler spawnHandler;
 
         public static WorldController Instance;
 
-        public World world;
+        public WorldSaveData worldSaveData { get; protected set; }
+
         public List<GameObject> spawnedGameObjects { get; protected set; }
         public static Dictionary<string, GameObject> guidGameObjectMap { get; protected set; }
 
+        static Action<WorldSaveData> cbSave;
 
         private void Start()
         {
@@ -35,27 +40,26 @@ namespace MemoryPalace
             /// INITIALIZE DICTIONARIES
             //////////////////////////////
             guidGameObjectMap = new Dictionary<string, GameObject>();
-
+            spawnedGameObjects = new List<GameObject>();
 
             //////////////////////////////
             /// REGISTER CALLBACKS
             //////////////////////////////
-            SpawnHandler.RegisterPrefabSpawnedCallback(OnPrefabSpawned);
+            spawnHandler.RegisterPrefabSpawnedCallback(OnPrefabSpawned);
 
             // Search the scene for existing GameObjects with UniqueID components.
             // Add them to the dictionary if they're not already there.
             // Eventually we may want to replace this with a scene load operation.
             RegisterExistingUniqueGameObjects();
-
         }
 
         // Only registers active GameObjects
         void RegisterExistingUniqueGameObjects()
         {
-            UniqueID[] uniqueGameObjects = FindObjectsOfType<UniqueID>();
-            for (int i = 0; i < uniqueGameObjects.Length; i++)
+            SaveLoadableGameObject[] saveLoadableGameObjects = FindObjectsOfType<SaveLoadableGameObject>();
+            for (int i = 0; i < saveLoadableGameObjects.Length; i++)
             {
-                RegisterGUID(uniqueGameObjects[i].gameObject);
+                RegisterGUID(saveLoadableGameObjects[i].gameObject);
             }
         }
 
@@ -88,9 +92,19 @@ namespace MemoryPalace
             guidGameObjectMap.Add(id, go);
         }
 
-        public void Restart()
+        public void ClearWorld()
         {
+            List<string> idKeys = new List<string>();
             // Wipe changes and restart to default world layout
+            foreach (string id in guidGameObjectMap.Keys)
+            {
+                idKeys.Add(id);
+            }
+            foreach (string id in idKeys)
+            {
+                Destroy(guidGameObjectMap[id]);
+                guidGameObjectMap.Remove(id);
+            }
         }
 
         public void Save()
@@ -98,32 +112,34 @@ namespace MemoryPalace
             ///////////////////////
             // Save current changes
             ///////////////////////
-            // Parse through loaded gameobjects
-            // Save ObjectTransformData for each
-            // Save ObjectInitData where applicable
-            // JSON
-            foreach (GameObject go in guidGameObjectMap.Values)
-            {
-                Debug.Log("Name: " + go.name + "   GUID: " + go.GetComponent<UniqueID>().ID);
-            }
-            
+            Debug.Log("Saving");
+            worldSaveData = new WorldSaveData();
+
+            // SaveLoadableObjects will register themselves with WorldSaveData
+            cbSave(worldSaveData);
+
+            string worldSaveDataJson = JsonUtility.ToJson(worldSaveData);
+            PlayerPrefs.SetString("SaveData", worldSaveDataJson);
         }
 
         public void Load()
         {
             ///////////////////////
+            // Clear existing world
+            ///////////////////////
+            ClearWorld();
+
+            ///////////////////////
             // Load saved world
             ///////////////////////
-            // Parse JSON file for ObjectInitData and ObjectTransformData
-            // Call SpawnHandler to spawn objects with ObjectInitData
-            // Place 
-            // Callback when load complete?
+            Debug.Log("Loading");
+            WorldSaveData loadData = (WorldSaveData)JsonUtility.FromJson(PlayerPrefs.GetString("SaveData"), typeof(WorldSaveData));
+            // SpawnHandler takes care of instantiation, initialization and placement of all saved objects
+            spawnHandler.SpawnAllFromSaveData(loadData.savedGameObjects);
         }
 
         void OnPrefabSpawned(GameObject go)
         {
-            Debug.LogFormat("Registering gameobject {0} in WorldController posterGameObjectMap", go.name);
-
             // Add to list of spawned objects
             spawnedGameObjects.Add(go);
 
@@ -135,6 +151,16 @@ namespace MemoryPalace
             }
 
             guidGameObjectMap.Add(uniqueID, go);
+        }
+
+        public static void RegisterSaveCallback(Action<WorldSaveData> callback)
+        {
+            cbSave += callback;
+        }
+        // Disabled GameObjects will not save
+        public static void UnregisterSaveCallback(Action<WorldSaveData> callback)
+        {
+            cbSave -= callback;
         }
 
     }
