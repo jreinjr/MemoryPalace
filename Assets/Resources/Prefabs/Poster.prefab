@@ -21,12 +21,11 @@ GameObject:
   - component: {fileID: 4869828599837420}
   - component: {fileID: 33014772386000852}
   - component: {fileID: 23385096141892832}
+  - component: {fileID: 114704687475077332}
   - component: {fileID: 114069844477459004}
   - component: {fileID: 114995656008498454}
   - component: {fileID: 65549755526759354}
   - component: {fileID: 54993284497146696}
-  - component: {fileID: 114151484516165206}
-  - component: {fileID: 114311445377755178}
   m_Layer: 8
   m_Name: Poster
   m_TagString: Sticker
@@ -132,7 +131,7 @@ MonoBehaviour:
   throwVelocityWithAttachDistance: 0
   throwMultiplier: 0
   onGrabCollisionDelay: 0
---- !u!114 &114151484516165206
+--- !u!114 &114704687475077332
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -140,20 +139,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1971568913712664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbada7c5bbcca8f4faa867962caf4855, type: 3}
+  m_Script: {fileID: 11500000, guid: d60678e18aa62eb439adc4caeb81e5ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114311445377755178
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1971568913712664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c685f04f4a897b54dae04b048034ab8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  disableWhenIdle: 1
+  touchHighlightColor: {r: 0, g: 0.75172424, b: 1, a: 1}
+  allowedTouchControllers: 0
+  ignoredColliders: []
+  isGrabbable: 1
+  holdButtonToGrab: 1
+  stayGrabbedOnTeleport: 1
+  validDrop: 1
+  grabOverrideButton: 0
+  allowedGrabControllers: 0
+  grabAttachMechanicScript: {fileID: 114069844477459004}
+  secondaryGrabActionScript: {fileID: 0}
+  isUsable: 1
+  holdButtonToUse: 1
+  useOnlyIfGrabbed: 0
+  pointerActivatesUseAction: 0
+  useOverrideButton: 0
+  allowedUseControllers: 0
+  usingState: 0
+  texture: {fileID: 0}
+  closeup: {fileID: 0}
+  postItPrefab: {fileID: 0}
 --- !u!114 &114995656008498454
 MonoBehaviour:
   m_ObjectHideFlags: 1
