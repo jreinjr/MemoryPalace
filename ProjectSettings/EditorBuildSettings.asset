@@ -4,4 +4,13 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/Main.unity
+    guid: 2790796eb09a4474ab9e8f3f177a8527
+  - enabled: 0
+    path: Assets/OVR/Scenes/GearVrControllerTest.unity
+    guid: d56af3aeb2176e7459f753c1c2e2dd97
+  - enabled: 1
+    path: Assets/Scenes/Debug.unity
+    guid: 7a537a6a1bdf1d2408c0298c9b4f6ad5
